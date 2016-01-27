@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="height:400px"></div>
+    <!-- ECharts单文件引入 -->
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main')); 
+                
+               option = {
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient : 'vertical',
+        x : 'left',
+        data:['HaoJm','WuL','ZhengZ','LiuBb','HuangBw','WangYp','ZhengL','Goulart','Conca','Olivio']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {
+                show: true, 
+                type: ['pie', 'funnel']
+            },
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : false,
+    series : [
+        {
+            name:'助攻数',
+            type:'pie',
+            selectedMode: 'single',
+            radius : [0, 70],
+            
+            // for funnel
+            x: '20%',
+            width: '40%',
+            funnelAlign: 'right',
+            max: 1548,
+            
+            itemStyle : {
+                normal : {
+                    label : {
+                        position : 'inner'
+                    },
+                    labelLine : {
+                        show : false
+                    }
+                }
+            },
+            data:[
+                {value:8, name:'HaoJm'},
+                {value:7, name:'WuL'},
+                {value:5, name:'ZhengZ'},
+                {value:5, name:'LiuBb'},
+                {value:5, name:'HuangBw'},
+                {value:4, name:'WangYp'},
+                {value:4, name:'ZhengL'},
+                {value:9, name:'Goulart'},
+                {value:6, name:'Conca'},
+                {value:9, name:'Olivio'}
+            ]
+        },
+        {
+            name:'传威胁球',
+            type:'pie',
+            radius : [100, 140],
+            
+            // for funnel
+            x: '60%',
+            width: '35%',
+            funnelAlign: 'left',
+            max: 1048,
+            
+            data:[
+                {value:34, name:'HaoJm'},
+                {value:46, name:'WuL'},
+                {value:27, name:'ZhengZ'},
+                {value:25, name:'LiuBb'},
+                {value:30, name:'HuangBw'},
+                {value:28, name:'WangYp'},
+                {value:20, name:'ZhengL'},
+                {value:37, name:'Goulart'},
+                {value:68, name:'Conca'},
+                {value:66, name:'Olivio'}
+            ]
+        }
+    ]
+};
+var ecConfig = require('echarts/config');
+myChart.on(ecConfig.EVENT.PIE_SELECTED, function (param){
+    var selected = param.selected;
+    var serie;
+    var str = '当前选择： ';
+    for (var idx in selected) {
+        serie = option.series[idx];
+        for (var i = 0, l = serie.data.length; i < l; i++) {
+            if (selected[idx][i]) {
+                str += '【系列' + idx + '】' + serie.name + ' : ' + 
+                       '【数据' + i + '】' + serie.data[i].name + ' ';
+            }
+        }
+    }
+    document.getElementById('wrong-message').innerHTML = str;
+})
+                    
+        
+                // 为echarts对象加载数据 
+                myChart.setOption(option); 
+            }
+        );
+    </script>
+</body>

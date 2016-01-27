@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="height:400px"></div>
+    <!-- ECharts单文件引入 -->
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/chord' // 使用柱状图就加载bar模块，按需加载
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main')); 
+                
+               var option = {
+    title : {
+        text: '中国队效力联盟',
+        x:'right',
+        y:'bottom'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: function (params) {
+            if (params.indicator2) {    // is edge
+                return params.indicator2 + ' ' + params.name + ' ' + params.indicator;
+            } else {    // is node
+                return params.name
+            }
+        }
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            restore : {show: true},
+            magicType: {show: true, type: ['force', 'chord']},
+            saveAsImage : {show: true}
+        }
+    },
+    legend: {
+        x: 'left',
+        data:['北京国安','广州恒大','广州富力','江苏舜天',
+             '山东鲁能','上海上港','河南建业','巴列卡诺']
+    },
+    series : [
+        {
+            name: '中国队效力联盟',
+            type:'chord',
+            sort : 'ascending',
+            sortSub : 'descending',
+            ribbonType: false,
+            radius: '60%',
+            itemStyle : {
+                normal : {
+                    label : {
+                        rotate : true
+                    }
+                }
+            },
+            minRadius: 7,
+            maxRadius: 20,
+            // 使用 nodes links 表达和弦图
+            nodes: [
+                {name:'于大宝'},
+                {name:'张呈栋'},
+                {name:'曾诚'},
+                {name:'于汉超'},
+                {name:'张琳芃'},
+                {name:'郑智',symbol: 'star'},
+                {name:'梅方'},
+                {name:'郜林'},
+                {name:'邹正'},
+                {name:'郑龙'},
+                {name:'王大雷'},
+                {name:'王永珀'},
+                {name:'杨旭'},
+                {name:'姜志鹏'},
+                {name:'于洋'},
+                {name:'颜骏凌'},
+                {name:'武磊'},
+                {name:'蔡慧康'},
+                {name:'任航'},
+                {name:'吴曦'},
+                {name:'刘建业'},
+                {name:'孙可'},
+                {name:'广州恒大'},
+                {name:'山东鲁能'},
+                {name:'北京国安'},
+                {name:'广州富力'},
+                {name:'上海上港'},
+                {name:'江苏舜天'},
+                {name:'河南建业'},
+                {name:'巴列卡诺'}
+            ],
+            links: [
+                {source: '北京国安', target: '于大宝', weight: 1, name: '效力'},
+                {source: '广州恒大', target: '曾诚', weight: 1, name: '效力'},
+                {source: '广州恒大', target: '于汉超', weight: 1, name: '效力'},
+                {source: '广州恒大', target: '张琳芃', weight: 1, name: '效力'},
+                {source: '广州恒大', target: '郑智', weight: 1, name: '效力'},
+                {source: '广州恒大', target: '梅方', weight: 1, name: '效力'},
+                {source: '广州恒大', target: '郜林', weight: 1, name: '效力'},
+                {source: '广州恒大', target: '邹正', weight: 1, name: '效力'},
+                {source: '广州恒大', target: '郑龙', weight: 1, name: '效力'},
+                {source: '山东鲁能', target: '王大雷', weight: 1, name: '效力'},
+                {source: '山东鲁能', target: '王永珀', weight: 1, name: '效力'},
+                {source: '山东鲁能', target: '杨旭', weight: 1, name: '效力'},
+                {source: '广州富力', target: '姜志鹏', weight: 1, name: '效力'},
+                {source: '广州富力', target: '于洋', weight: 1, name: '效力'},
+                {source: '上海上港', target: '颜骏凌', weight: 1, name: '效力'},
+                {source: '上海上港', target: '武磊', weight: 1, name: '效力'},
+                {source: '上海上港', target: '蔡慧康', weight: 1, name: '效力'},
+                {source: '江苏舜天', target: '任航', weight: 1, name: '效力'},
+                {source: '江苏舜天', target: '吴曦', weight: 1, name: '效力'},
+                {source: '江苏舜天', target: '刘建业', weight: 1, name: '效力'},
+                {source: '江苏舜天', target: '孙可', weight: 1, name: '效力'}
+            ]
+        }
+    ]
+};
+                    
+        
+                // 为echarts对象加载数据 
+                myChart.setOption(option); 
+            }
+        );
+    </script>
+</body>
